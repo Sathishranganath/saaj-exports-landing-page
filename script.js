@@ -240,3 +240,38 @@ const createScrollToTopButton = () => {
 
 // Initialize scroll to top button
 createScrollToTopButton();
+
+// Hide hero buttons when scrolling past hero section
+const hideHeroButtonsOnScroll = () => {
+    const heroButtons = document.querySelectorAll('.hero-buttons .btn-primary, .hero-buttons .btn-outline');
+    const aboutSection = document.getElementById('about');
+    
+    if (!aboutSection) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // About section is visible, hide the buttons
+                heroButtons.forEach(button => {
+                    button.style.opacity = '0';
+                    button.style.visibility = 'hidden';
+                    button.style.transition = 'opacity 0.3s ease, visibility 0.3s ease';
+                });
+            } else {
+                // About section is not visible, show the buttons
+                heroButtons.forEach(button => {
+                    button.style.opacity = '1';
+                    button.style.visibility = 'visible';
+                    button.style.transition = 'opacity 0.3s ease, visibility 0.3s ease';
+                });
+            }
+        });
+    }, {
+        threshold: 0.1 // Trigger when 10% of the about section is visible
+    });
+    
+    observer.observe(aboutSection);
+};
+
+// Initialize hero buttons visibility control
+hideHeroButtonsOnScroll();
