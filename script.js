@@ -251,14 +251,14 @@ const hideHeroButtonsOnScroll = () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // About section is visible, hide the buttons
+                // About section is significantly visible, hide the buttons
                 heroButtons.forEach(button => {
                     button.style.opacity = '0';
                     button.style.visibility = 'hidden';
                     button.style.transition = 'opacity 0.3s ease, visibility 0.3s ease';
                 });
             } else {
-                // About section is not visible, show the buttons
+                // About section is not significantly visible, show the buttons
                 heroButtons.forEach(button => {
                     button.style.opacity = '1';
                     button.style.visibility = 'visible';
@@ -267,7 +267,8 @@ const hideHeroButtonsOnScroll = () => {
             }
         });
     }, {
-        threshold: 0.1 // Trigger when 10% of the about section is visible
+        threshold: 0.3, // Trigger when 30% of the about section is visible
+        rootMargin: '-50px 0px -50px 0px' // Add margin to delay trigger until more content is visible
     });
     
     observer.observe(aboutSection);
